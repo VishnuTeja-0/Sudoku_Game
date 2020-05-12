@@ -2,6 +2,8 @@ import pygame,sys
 from settings import *
 from buttonClass import *
 from SolveFunction import *
+  
+
 
 class App:
     def __init__(self):
@@ -58,9 +60,11 @@ class App:
                             self.grid[self.selected[1]][self.selected[0]] = int(event.unicode)
                         else:
                             self.grid[self.selected[1]][self.selected[0]] = "X"
-                    
-
-
+                    if find_empty(self.grid) == None and self.grid[self.selected[1]][self.selected[0]] != "X":
+                        win_confirmation()
+                        
+                        
+                        
     def playing_update(self):
         self.mousePos = pygame.mouse.get_pos()
         for button in self.playingButtons:
@@ -115,7 +119,7 @@ class App:
         return((self.mousePos[0]-gridPos[0])//cellSize , (self.mousePos[1]-gridPos[1])//cellSize)
         
     def loadButtons(self):
-        self.playingButtons.append(Button(20,40,100,40,"Solve It!"))
+        self.playingButtons.append(Button(x = 20, y = 40, width = 100, height = 40, text = "Solve It!"))
 
     def textToScreen(self,window,text,pos):
         font = self.font.render(text,False,BLACK)
@@ -141,3 +145,4 @@ class App:
             return True
         except:
             return False
+

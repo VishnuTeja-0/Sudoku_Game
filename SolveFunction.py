@@ -1,5 +1,7 @@
 # To solve a given Sudoku board
-from settings import testBoard2   
+from settings import testBoard2
+import tkinter as tk
+from tkinter import messagebox as mb 
 
 def solve(bo):
     find = find_empty(bo)
@@ -65,3 +67,6 @@ def find_empty(bo):
                 return (i, j)  # row, col
 
     return None
+
+def win_confirmation():
+    mb.showinfo("Congratulations", "You Solved The Puzzle!")

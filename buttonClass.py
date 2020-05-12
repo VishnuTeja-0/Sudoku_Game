@@ -29,6 +29,9 @@ class Button:
         else:
             self.image.fill(self.colour)
         window.blit(self.image, self.pos)
+        label = smallText.render(self.text, True, LIGHTBLUE)
+        button_center = ((self.pos[0] + self.width / 2) - 30, (self.pos[1] + self.height / 2) - 12)
+        window.blit(label, button_center)
         
         
     def isClicked(self):
