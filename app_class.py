@@ -1,6 +1,7 @@
 import pygame,sys
 from settings import *
 from buttonClass import *
+from SolveFunction import *
 
 class App:
     def __init__(self):
@@ -34,6 +35,7 @@ class App:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+            
 
             ### USER CLICKS
 
@@ -42,14 +44,21 @@ class App:
                 if selected:
                     self.selected = selected
                 else:
-                    print("not on board")
-                    self.selected = None
+                    for button in self.playingButtons:
+                        if button.isClicked():
+                            solve(self.grid)
+                            
+                            
 
             ### USER TYPES THE INPUT
             if event.type == pygame.KEYDOWN:
                 if self.selected != None and self.selected not in self.lockedCells:
                     if self.isInt(event.unicode):
-                        self.grid[self.selected[1]][self.selected[0]] = int(event.unicode)
+                        if valid(self.grid, int(event.unicode), (self.selected[1],self.selected[0])):
+                            self.grid[self.selected[1]][self.selected[0]] = int(event.unicode)
+                        else:
+                            self.grid[self.selected[1]][self.selected[0]] = "X"
+                    
 
 
     def playing_update(self):
@@ -104,9 +113,9 @@ class App:
         if self.mousePos[0] > gridPos[0]+gridSize or self.mousePos[1] > gridPos[1]+gridSize:
             return False
         return((self.mousePos[0]-gridPos[0])//cellSize , (self.mousePos[1]-gridPos[1])//cellSize)
-
+        
     def loadButtons(self):
-        self.playingButtons.append(Button(20,40,100,40))
+        self.playingButtons.append(Button(20,40,100,40,"Solve It!"))
 
     def textToScreen(self,window,text,pos):
         font = self.font.render(text,False,BLACK)
